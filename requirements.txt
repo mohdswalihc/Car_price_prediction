@@ -57,4 +57,16 @@ tzdata==2025.3
 urllib3==2.6.3
 uvicorn==0.41.0
 watchdog==6.0.0
-Flask
+streamlit
+
+
+# fastapi
+# uvicorn
+# pandas
+# numpy
+# scikit-learn==1.7.2
+# streamlit
+# requests
+# pydantic
+
+# for reduse the image size

@@ -1,14 +1,12 @@
 from fastapi import FastAPI ,HTTPException,Query,Path
-import json
-from pydantic import BaseModel,Field,computed_field,field_validator
-from typing import Annotated,Literal,Optional
+
+
 
 from fastapi.responses import JSONResponse
 import pickle
 import pandas as pd
 
 from schema.user_input import UserInput
-
 from model.predict import predict_output,model,MODEL_VERTION
 
 #  import pickl file
@@ -45,6 +43,7 @@ def predict_premium(data:UserInput):
         'Engine HP':data.Engine_HP,
         'Engine Cylinders':data.Engine_Cylinders,
         'Transmission Type':data.TransmissionType,
+        
         'Driven_Wheels':data.Driven_Wheels,
         'Number of Doors':data.Number_of_Doors,
         'Market Category':data.Market_Category,

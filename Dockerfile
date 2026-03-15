@@ -1,56 +1,25 @@
-# # base image
-# FROM python:3.9
 
 
-# # work directry
-# workdir / app
-
-# # copy
-
-# COPY . /app
-
-# # run
-
-# run pip install -r requirements.txt
-
-# # port
-
-# expose 8000
-
-# # command
-
-# CMD ['python','./app.py']
 
 
-# base image
-FROM python:3.11
+# Base image
+FROM python:3.11-slim
 
-# work directory
+# Set working directory
 WORKDIR /app
 
-# copy project
+# Copy only requirements first (for caching)
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
 COPY . .
 
-# install dependencies
-RUN pip install -r requirements.txt
-
-# port
+# Expose ports
 EXPOSE 8000
+EXPOSE 8501
 
-# run app
-CMD ["uvicorn","app:app","--host","0.0.0.0","--port","8000"]
-
-
-
-### docker build -t car24/table .
-
-## docker run -p 8001:8000 car24/table
-
-## HOST PORT      CONTAINER PORT
-##  8001      →        8000
-
-# | Address     | Purpose                   |
-# | ----------- | ------------------------- |
-# | `0.0.0.0`   | server listens everywhere |
-# | `localhost` | access from your computer |
-# | `127.0.0.1` | loopback address          |
+# Start FastAPI and Streamlit
+CMD ["sh","-c","uvicorn app:app --host 0.0.0.0 --port 8000 & streamlit run frontend.py --server.port 8501 --server.address 0.0.0.0"]
